@@ -1,0 +1,6 @@
+nose_annotator.egg-info
+temp/*
+build/*
+*.pyc
+setup.cfg
+*csv
