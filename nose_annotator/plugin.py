@@ -31,6 +31,9 @@ class NoseAnnotator(Plugin):
         if not self.enabled:
             return
 
+    def begin(self):
+        pass
+
     def startTest(self, test):
         self.test_class, self.test_name = self.get_test_class_name(test)
         key, value = self.get_test_annotations(test)
@@ -38,7 +41,7 @@ class NoseAnnotator(Plugin):
             self.nose_annotator = {}
             self.nose_annotator[KEY] = key
             self.nose_annotator[VALUE] = value
-        # self.result = {}
+        self.result = {}
 
     def stopTest(self, test):
         if getattr(self, 'nose_annotator', None) and self.nose_annotator[KEY]:
