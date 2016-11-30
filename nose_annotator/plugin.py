@@ -41,7 +41,7 @@ class NoseAnnotator(Plugin):
         # self.result = {}
 
     def stopTest(self, test):
-        if self.nose_annotator[KEY]:
+        if getattr(self, 'nose_annotator', None) and self.nose_annotator[KEY]:
             test_class, test_name = self.get_test_class_name(test)
             mapping_file = self.test_mapping_file_name(self.nose_annotator[KEY])
             with io.open(mapping_file, 'ab') as f:

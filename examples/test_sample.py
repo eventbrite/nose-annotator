@@ -12,3 +12,6 @@ class TestSampleClass(unittest.TestCase):
     @nose_annotator('StringAnnotationFile', 'This is an annotation')
     def test_strings(self):
         assert 'aaa' == 'aaa'
+
+    def test_boolean(self):
+        assert True == True
