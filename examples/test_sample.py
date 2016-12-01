@@ -15,3 +15,17 @@ class TestSampleClass(unittest.TestCase):
 
     def test_boolean(self):
         assert True == True
+
+
+class TestSampleClass2(unittest.TestCase):
+
+    @nose_annotator('NumericAnnotationFile', 321)
+    def test_numbers(self):
+        assert 1 == 1
+
+    @nose_annotator('StringAnnotationFile', 'This is an annotation')
+    def test_strings(self):
+        assert 'aaa' == 'aaa'
+
+    def test_boolean(self):
+        assert True == True

@@ -3,8 +3,7 @@ import os
 
 from nose.plugins import Plugin
 
-KEY = 'nose_annotator_key'
-VALUE = 'nose_annotator_value'
+KEY = 'nose_annotator'
 
 
 def nose_annotator(key=None, value=None):
@@ -13,9 +12,9 @@ def nose_annotator(key=None, value=None):
     TESTCLASS:TESTCASE, 123
     """
     def wrap_ob(ob):
-        if key:
-            setattr(ob, KEY, key)
-            setattr(ob, VALUE, value)
+        if not getattr(ob, KEY, None):
+            setattr(ob, KEY, [])
+        getattr(ob, KEY, []).append({key: value})
         return ob
     return wrap_ob
 
@@ -36,26 +35,23 @@ class NoseAnnotator(Plugin):
 
     def startTest(self, test):
         self.test_class, self.test_name = self.get_test_class_name(test)
-        key, value = self.get_test_annotations(test)
-        if key:
-            self.nose_annotator = {}
-            self.nose_annotator[KEY] = key
-            self.nose_annotator[VALUE] = value
+        self.annotations = self.get_test_annotations(test)
         self.result = {}
 
     def stopTest(self, test):
-        if getattr(self, 'nose_annotator', None) and self.nose_annotator[KEY]:
+        if self.annotations and len(self.annotations):
             test_class, test_name = self.get_test_class_name(test)
-            mapping_file = self.test_mapping_file_name(self.nose_annotator[KEY])
-            with io.open(mapping_file, 'ab') as f:
-                f.write('%s:%s,%s' % (test_class, test_name, self.nose_annotator[VALUE]) + "\n")
+            for annotation in self.annotations:
+                for key, value in annotation.iteritems():
+                    mapping_file = self.test_mapping_file_name(key)
+                    with io.open(mapping_file, 'ab') as f:
+                        f.write('%s:%s,%s' % (test_class, test_name, value) + "\n")
 
     def get_test_annotations(self, test):
         test_name = test.id().split('.')[-1]
         test_method = getattr(test.test, test_name, None)
-        key = getattr(test_method, KEY, None)
-        value = getattr(test_method, VALUE, None)
-        return key, value
+        annotation = getattr(test_method, KEY, None)
+        return annotation
 
     def get_test_class_name(self, test):
         test_class = test.id().split('.')[-2]
