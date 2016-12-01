@@ -43,7 +43,7 @@ class NoseAnnotator(Plugin):
             test_class, test_name = self.get_test_class_name(test)
             for annotation in self.annotations:
                 for key, value in annotation.iteritems():
-                    mapping_file = self.test_mapping_file_name(key)
+                    mapping_file = self.get_test_mapping_file_name(key)
                     with io.open(mapping_file, 'ab') as f:
                         f.write('%s:%s,%s' % (test_class, test_name, value) + "\n")
 
@@ -58,7 +58,7 @@ class NoseAnnotator(Plugin):
         test_name = test.id().split('.')[-1]
         return test_class, test_name
 
-    def test_mapping_file_name(self, key_name):
+    def get_test_mapping_file_name(self, key_name):
         filename = key_name + '_mapping.csv'
         if os.environ.get(key_name.upper(), None):
             filename = os.environ.get(key_name.upper())
