@@ -30,15 +30,14 @@ class NoseAnnotator(Plugin):
         if not self.enabled:
             return
 
-    def begin(self):
-        pass
-
     def startTest(self, test):
+        """Collect any annotations for this testcase"""
         self.test_class, self.test_name = self.get_test_class_name(test)
         self.annotations = self.get_test_annotations(test)
         self.result = {}
 
     def stopTest(self, test):
+        """Atomically write out annotations to appropriate mapping file"""
         if self.annotations and len(self.annotations):
             test_class, test_name = self.get_test_class_name(test)
             for annotation in self.annotations:
@@ -48,10 +47,9 @@ class NoseAnnotator(Plugin):
                         f.write('%s:%s,%s' % (test_class, test_name, value) + "\n")
 
     def get_test_annotations(self, test):
-        test_name = test.id().split('.')[-1]
-        test_method = getattr(test.test, test_name, None)
-        annotation = getattr(test_method, KEY, None)
-        return annotation
+        test_method = getattr(test.test, self.test_name, None)
+        annotations = getattr(test_method, KEY, None)
+        return annotations
 
     def get_test_class_name(self, test):
         test_class = test.id().split('.')[-2]
