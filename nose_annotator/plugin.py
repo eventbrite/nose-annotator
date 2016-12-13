@@ -4,7 +4,7 @@ import os
 from nose.plugins import Plugin
 
 KEY = 'nose_annotator'
-
+TESTRAIL = 'testrail'
 
 def nose_annotator(key=None, value=None):
     """Decorator
