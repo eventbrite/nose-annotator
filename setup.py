@@ -11,11 +11,11 @@ from setuptools import (
 name = 'nose-annotator'
 setup(
     name=name,
-    version='1.0.0',
+    version='1.0.1',
     description='Plugin to annotate testcases and produce a mapping .csv file of [testcase name],[annotation]',
     author='Kip Gebhardt',
-    author_email='kgebhardt23@gmail.com',
-    url='http://github.com/rv-kip/%s' % name,
+    author_email='kip@eventbrite.com',
+    url='http://github.com/eventbrite/%s' % name,
     packages=find_packages(exclude=["tests"]),
     entry_points={
         'nose.plugins.0.10': [

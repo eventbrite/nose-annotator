@@ -21,7 +21,7 @@ See `examples/test_sample.py` file for annotation examples.
 
 Follow the instructions below to see plugin in action.
 ```
-$ git clone https://github.com/rv-kip/nose-annotator.git
+$ git clone https://github.com/eventbrite/nose-annotator.git
 $ cd nose-annotator
 $ sudo pip install nose
 $ sudo easy_install .
